@@ -1,7 +1,7 @@
 {
   "name": "yelp-ground-app",
   "version": "1.0.0",
-  "description": "Node.js application",
+  "description": "Gyms review application build in Node.js",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
