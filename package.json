@@ -1,0 +1,19 @@
+{
+  "name": "yelp-ground-app",
+  "version": "1.0.0",
+  "description": "Node.js application",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/user1990/yelp-ground-app.git"
+  },
+  "author": "Paulius Rimgaila",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/user1990/yelp-ground-app/issues"
+  },
+  "homepage": "https://github.com/user1990/yelp-ground-app#readme"
+}
