@@ -1,25 +1,48 @@
 'use strict';
 const express = require('express');
-
-// Initialize app
+const bodyParser = require('body-parser');
 const app = express();
 
-// Initialize ejs template
-app.set('view engine', 'ejs');
+var gyms = [
+        { name: 'Salmon Creek', image: 'https://farm9.staticflickr.com/8442/7962474612_bf2baf67c0.jpg' },
+        { name: 'Granite Hill', image: 'https://farm1.staticflickr.com/60/215827008_6489cd30c3.jpg' },
+        { name: 'Mountain Goat\'s Rest', image: 'https://farm7.staticflickr.com/6057/6234565071_4d20668bbd.jpg' },
+        { name: 'Salmon Creek', image: 'https://farm9.staticflickr.com/8442/7962474612_bf2baf67c0.jpg' },
+        { name: 'Granite Hill', image: 'https://farm1.staticflickr.com/60/215827008_6489cd30c3.jpg' },
+        { name: 'Mountain Goat\'s Rest', image: 'https://farm7.staticflickr.com/6057/6234565071_4d20668bbd.jpg' },
+        { name: 'Salmon Creek', image: 'https://farm9.staticflickr.com/8442/7962474612_bf2baf67c0.jpg' },
+        { name: 'Granite Hill', image: 'https://farm1.staticflickr.com/60/215827008_6489cd30c3.jpg' },
+        { name: 'Mountain Goat\'s Rest', image: 'https://farm7.staticflickr.com/6057/6234565071_4d20668bbd.jpg' }
+];
 
+/* Middleware */
+app.set('view engine', 'ejs');
+app.use(bodyParser.urlencoded({ extended: false }));
+
+/** ROUTES **/
 app.get('/', (req, res) => {
   res.render('landing');
 });
 
-app.get('/grounds', (req, res) => {
-  let restgrounds = [
-    { name: 'Hogwash', image: 'http://info.orwakbalers.com/hubfs/Blog%20&%20email%20images/blog%20Images/restaurant.jpeg' },
-    { name: 'Media Noche', image: 'https://media-cdn.tripadvisor.com/media/photo-s/06/ac/70/5e/fardi-syrian-restaurant.jpg' },
-    { name: 'Tacorea', image: 'http://bsnscb.com/data/out/163/27009665-restaurant-wallpapers.jpg' }
-  ];
+app.get('/gyms', (req, res) => {
+  res.render('gyms', { gyms: gyms });
 });
 
-// Listen to port
+app.post('/gyms', (req, res) => {
+  // get data from form and add to gyms array
+  let name = req.body.name;
+  let image = req.body.image;
+  let newGym = { name: name, image: image };
+  gyms.push(newGym);
+  // redirect back to gyms page
+  res.redirect('/gyms');
+});
+
+app.get('/gyms/new', (req, res) => {
+  res.render('new.ejs');
+});
+
+/* Listen to port */
 app.listen(3000, (err) => {
   if (err) { throw err; }
   console.log('=========================');
