@@ -1,4 +1,4 @@
-# yelp-ground-app
+# yelp-rest-app
 NodeJs application
 
 ## COMING SOON
