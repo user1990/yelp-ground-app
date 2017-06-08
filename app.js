@@ -2,50 +2,94 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
+const mongoose = require('mongoose');
+const session = require('express-session');
+const cookieParser = require('cookie-parser');
+const MongoStore = require('connect-mongo')(session);
+const secret = require('./config/secret');
 
-var gyms = [
-        { name: 'Salmon Creek', image: 'https://farm9.staticflickr.com/8442/7962474612_bf2baf67c0.jpg' },
-        { name: 'Granite Hill', image: 'https://farm1.staticflickr.com/60/215827008_6489cd30c3.jpg' },
-        { name: 'Mountain Goat\'s Rest', image: 'https://farm7.staticflickr.com/6057/6234565071_4d20668bbd.jpg' },
-        { name: 'Salmon Creek', image: 'https://farm9.staticflickr.com/8442/7962474612_bf2baf67c0.jpg' },
-        { name: 'Granite Hill', image: 'https://farm1.staticflickr.com/60/215827008_6489cd30c3.jpg' },
-        { name: 'Mountain Goat\'s Rest', image: 'https://farm7.staticflickr.com/6057/6234565071_4d20668bbd.jpg' },
-        { name: 'Salmon Creek', image: 'https://farm9.staticflickr.com/8442/7962474612_bf2baf67c0.jpg' },
-        { name: 'Granite Hill', image: 'https://farm1.staticflickr.com/60/215827008_6489cd30c3.jpg' },
-        { name: 'Mountain Goat\'s Rest', image: 'https://farm7.staticflickr.com/6057/6234565071_4d20668bbd.jpg' }
-];
-
-/* Middleware */
+// APP CONFIG
+mongoose.Promise = global.Promise;
+mongoose.connect(secret.database, (err) => {
+  if (err) {
+    console.log(err);
+  } else {
+    console.log('======================');
+    console.log('Connected to the database');
+    console.log('======================');
+  }
+});
 app.set('view engine', 'ejs');
+app.use(express.static('public'));
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cookieParser());
+app.use(session({
+  resave: true,
+  saveUninitialized: true,
+  secret: secret.secretKey,
+  store: new MongoStore({ url: secret.database, autoReconnect: true })
+}));
 
-/** ROUTES **/
+// MONGOOSE/MODEL CONFIG
+let gymSchema = new mongoose.Schema({
+  name: String,
+  image: String,
+  description: String
+});
+
+let Gym = mongoose.model('gym', gymSchema);
+
+/** RESTFUL ROUTES **/
 app.get('/', (req, res) => {
   res.render('landing');
 });
 
+// INDEX - show all gyms
 app.get('/gyms', (req, res) => {
-  res.render('gyms', { gyms: gyms });
+  Gym.find({}, (err, allGyms) => {
+    if (err) {
+      console.log(err);
+    } else {
+      res.render('index', { gyms: allGyms });
+    }
+  });
 });
 
+// CREATE - add new gym to DB
 app.post('/gyms', (req, res) => {
-  // get data from form and add to gyms array
   let name = req.body.name;
   let image = req.body.image;
-  let newGym = { name: name, image: image };
-  gyms.push(newGym);
-  // redirect back to gyms page
-  res.redirect('/gyms');
+  let desc = req.body.description;
+  let newGym = { name: name, image: image, description: desc };
+  Gym.create(newGym, (err, newlyCreated) => {
+    if (err) {
+      console.log(err);
+    } else {
+      res.redirect('/gyms');
+    }
+  });
 });
 
+// NEW - show form to create new gym
 app.get('/gyms/new', (req, res) => {
   res.render('new.ejs');
 });
 
-/* Listen to port */
-app.listen(3000, (err) => {
+// SHOW -shows more info about one gym
+app.get('/gyms/:id', (req, res) => {
+  Gym.findById(req.params.id, (err, foundGym) => {
+    if (err) {
+      console.log(err);
+    } else {
+      res.render('show', { gym: foundGym });
+    }
+  });
+});
+
+// LISTEN TO PORT
+app.listen(secret.port, (err) => {
   if (err) { throw err; }
-  console.log('=========================');
-  console.log('Server is running on port');
-  console.log('=========================');
+  console.log('======================');
+  console.log('Server is running on port ' + secret.port);
+  console.log('======================');
 });
