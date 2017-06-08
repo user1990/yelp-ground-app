@@ -167,7 +167,7 @@
     "no-catch-shadow": 2,             // disallow the catch clause parameter name being the same as a variable in the outer scope
     "no-delete-var": 2,               // disallow deletion of variables
     "no-label-var": 2,                // disallow labels that share a name with a variable
-    "no-shadow": 2,                   // disallow declaration of variables already declared in the outer scope
+    "no-shadow": 0,                   // disallow declaration of variables already declared in the outer scope
     "no-shadow-restricted-names": 0,  // disallow shadowing of names such as arguments
     "no-undef": 2,                    // disallow use of undeclared variables unless mentioned in a /*global */ block (recommended)
     "no-undef-init": 2,               // disallow use of undefined when initializing variables
@@ -183,7 +183,7 @@
     "handle-callback-err": 2,   // enforce error handling in callbacks
     "no-mixed-requires": 2,     // disallow mixing regular variable and require declarations
     "no-new-require": 2,        // disallow use of new operator with the require function
-    "no-path-concat": 2,        // disallow string concatenation with __dirname and __filename
+    "no-path-concat": 0,        // disallow string concatenation with __dirname and __filename
     "no-process-exit": 2,       // disallow process.exit()
     "no-restricted-modules": 2, // restrict usage of specified node modules
     "no-sync": 0,               // disallow use of synchronous methods
