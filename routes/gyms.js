@@ -52,14 +52,14 @@ router.get('/:id', (req, res) => {
   });
 });
 
-// EDIT CAMPGROUND ROUTE
+// EDIT GYM
 router.get('/:id/edit', middleware.checkGymOwnership, (req, res) => {
   Gym.findById(req.params.id, (err, foundGym) => {
     res.render('gyms/edit', { gym: foundGym });
   });
 });
 
-// UPDATE CAMPGROUND ROUTE
+// UPDATE GYM
 router.put('/:id', middleware.checkGymOwnership, (req, res) => {
   // find and update the correct gym
   Gym.findByIdAndUpdate(req.params.id, req.body.gym, (err, updatedGym) => {
@@ -73,7 +73,7 @@ router.put('/:id', middleware.checkGymOwnership, (req, res) => {
   // redirect somewhere
 });
 
-// DESTROY GYM ROUTE
+// DESTROY GYM
 router.delete('/:id', middleware.checkGymOwnership, (req, res) => {
   Gym.findByIdAndRemove(req.params.id, err => {
     if (err) {

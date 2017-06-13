@@ -4,6 +4,7 @@ const router = express.Router({ mergeParams: true });
 const passport = require('passport');
 const User = require('../models/user');
 
+// ROOT
 router.get('/', (req, res) => {
   res.render('landing');
 });
@@ -22,10 +23,11 @@ router.post('/register', (req, res) => {
   let newUser = new User({ username: req.body.username });
   User.register(newUser, req.body.password, (err, user) => {
     if (err) {
-      console.log(err);
+      req.flash('error', err.message);
       return res.render('accounts/register');
     }
     passport.authenticate('local')(req, res, function() {
+      req.flash('success', 'Welcome to YelpGym ' + user.username);
       res.redirect('/gyms');
     });
   });
@@ -46,15 +48,8 @@ router.post('/login', passport.authenticate('local',
 // Logout logic
 router.get('/logout', (req, res) => {
   req.logout();
+  req.flash('success', 'Logged you out!');
   res.redirect('/gyms');
 });
-
-// Middleware
-function isLoggedIn(req, res, next) {
-  if (req.isAuthenticated()) {
-    return next();
-  }
-  res.redirect('/login');
-}
 
 module.exports = router;

@@ -9,19 +9,21 @@
         </div>
     </header>
 
-    <div class="row text-center">
+    <div class="row text-center" id="gymDisplay">
         <% gyms.forEach(function(gym) { %>
             <div class="col-md-3 col-sm-6">
                 <div class="thumbnail">
                     <img src="<%= gym.image %>">
-                    <div class="caption">
+                    <div class="caption text-center">
                         <h4><%= gym.name %></h4>
                     </div>
                     <p><a href="/gyms/<%= gym._id %>" class="btn btn-primary">More Info</a></p>
+                    </div>
                 </div>
             </div>
         <% }); %>
     </div>
+
 </div>
 
 <% include ../partials/footer %>

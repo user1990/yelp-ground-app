@@ -5,12 +5,10 @@ const Gym = require('../models/gym');
 const Comment = require('../models/comment');
 const middleware = require('../middleware');
 
-// ====================
-// COMMENTS ROUTES
-// ====================
-
+// NEW COMMENT
 router.get('/new', middleware.isLoggedIn, (req, res) => {
   // find gym by id
+  console.log(req.params.id);
   Gym.findById(req.params.id, (err, gym) => {
     if (err) {
       console.log(err);
@@ -20,15 +18,17 @@ router.get('/new', middleware.isLoggedIn, (req, res) => {
   });
 });
 
-router.post('/', (req, res) => {
-  // lookup gym using ID
-  Gym.findById(req.params.id, (err, gym) => {
+// CREATE COMMENT
+router.post('/', middleware.isLoggedIn, function(req, res) {
+   // lookup gym using ID
+  Gym.findById(req.params.id, function(err, gym) {
     if (err) {
       console.log(err);
       res.redirect('/gyms');
     } else {
-      Comment.create(req.body.comment, (err, comment) => {
+      Comment.create(req.body.comment, function(err, comment) {
         if (err) {
+          req.flash('error', 'Something went wrong');
           console.log(err);
         } else {
           // add username and id to comment
@@ -39,19 +39,19 @@ router.post('/', (req, res) => {
           gym.comments.push(comment);
           gym.save();
           console.log(comment);
+          req.flash('success', 'Successfully added comment');
           res.redirect('/gyms/' + gym._id);
         }
       });
     }
   });
-  // create new comment
-  // connect new comment to gym
 });
 
-// COMMENT EDIT ROUTE
+// EDIT COMMENT
 router.get('/:comment_id/edit', middleware.checkCommentOwnership, function(req, res) {
   Comment.findById(req.params.comment_id, function(err, foundComment) {
     if (err) {
+      req.flash('error', 'Comment was not found');
       res.redirect('back');
     } else {
       res.render('comments/edit', { gym_id: req.params.id, comment: foundComment });
@@ -59,18 +59,20 @@ router.get('/:comment_id/edit', middleware.checkCommentOwnership, function(req, 
   });
 });
 
-// COMMENT UPDATE
+// UPDATE COMMENT
 router.put('/:comment_id', middleware.checkCommentOwnership, function(req, res) {
   Comment.findByIdAndUpdate(req.params.comment_id, req.body.comment, function(err, updatedComment) {
     if (err) {
+      req.flash('error', 'Comment was not found');
       res.redirect('back');
     } else {
+      req.flash('success', 'Comment deleted');
       res.redirect('/gyms/' + req.params.id);
     }
   });
 });
 
-// COMMENT DESTROY ROUTE
+// DESTROY COMMENT
 router.delete('/:comment_id', middleware.checkCommentOwnership, function(req, res) {
     // findByIdAndRemove
   Comment.findByIdAndRemove(req.params.comment_id, function(err) {
