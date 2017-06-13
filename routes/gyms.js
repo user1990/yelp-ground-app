@@ -1,7 +1,8 @@
 'use strict';
 const express = require('express');
-const router = express.Router({ mergeParams: true });
+const router = express.Router();
 const Gym = require('../models/gym');
+const middleware = require('../middleware');
 
 // INDEX - show all gyms
 router.get('/', (req, res) => {
@@ -16,7 +17,7 @@ router.get('/', (req, res) => {
 });
 
 // CREATE - add new gym to DB
-router.post('/', isLoggedIn, (req, res) => {
+router.post('/', middleware.isLoggedIn, (req, res) => {
   let name = req.body.name;
   let image = req.body.image;
   let desc = req.body.description;
@@ -35,30 +36,52 @@ router.post('/', isLoggedIn, (req, res) => {
 });
 
 // NEW - show form to create new gym
-router.get('/new', isLoggedIn, (req, res) => {
+router.get('/new', middleware.isLoggedIn, (req, res) => {
   res.render('gyms/new');
 });
 
 // SHOW -shows more info about one gym
 router.get('/:id', (req, res) => {
-  Gym
-    .findById(req.params.id)
-    .populate('comments')
-    .exec((err, foundGym) => {
-      if (err) {
-        console.log(err);
-      } else {
-        res.render('gyms/show', { gym: foundGym });
-      }
-    });
+  Gym.findById(req.params.id).populate('comments').exec(function(err, foundGym) {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log(foundGym);
+      res.render('gyms/show', { gym: foundGym });
+    }
+  });
 });
 
-// Middleware
-function isLoggedIn(req, res, next) {
-  if (req.isAuthenticated()) {
-    return next();
-  }
-  res.redirect('/login');
-}
+// EDIT CAMPGROUND ROUTE
+router.get('/:id/edit', middleware.checkGymOwnership, (req, res) => {
+  Gym.findById(req.params.id, (err, foundGym) => {
+    res.render('gyms/edit', { gym: foundGym });
+  });
+});
+
+// UPDATE CAMPGROUND ROUTE
+router.put('/:id', middleware.checkGymOwnership, (req, res) => {
+  // find and update the correct gym
+  Gym.findByIdAndUpdate(req.params.id, req.body.gym, (err, updatedGym) => {
+    if (err) {
+      res.redirect('/gyms');
+    } else {
+           // redirect somewhere(show page)
+      res.redirect('/gyms/' + req.params.id);
+    }
+  });
+  // redirect somewhere
+});
+
+// DESTROY GYM ROUTE
+router.delete('/:id', middleware.checkGymOwnership, (req, res) => {
+  Gym.findByIdAndRemove(req.params.id, err => {
+    if (err) {
+      res.redirect('/gyms');
+    } else {
+      res.redirect('/gyms/' + req.params.id);
+    }
+  });
+});
 
 module.exports = router;

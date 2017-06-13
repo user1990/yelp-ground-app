@@ -3,12 +3,13 @@ const express = require('express');
 const router = express.Router({ mergeParams: true });
 const Gym = require('../models/gym');
 const Comment = require('../models/comment');
+const middleware = require('../middleware');
 
 // ====================
 // COMMENTS ROUTES
 // ====================
 
-router.get('/new', isLoggedIn, (req, res) => {
+router.get('/new', middleware.isLoggedIn, (req, res) => {
   // find gym by id
   Gym.findById(req.params.id, (err, gym) => {
     if (err) {
@@ -47,12 +48,38 @@ router.post('/', (req, res) => {
   // connect new comment to gym
 });
 
-// Middleware
-function isLoggedIn(req, res, next) {
-  if (req.isAuthenticated()) {
-    return next();
-  }
-  res.redirect('/login');
-}
+// COMMENT EDIT ROUTE
+router.get('/:comment_id/edit', middleware.checkCommentOwnership, function(req, res) {
+  Comment.findById(req.params.comment_id, function(err, foundComment) {
+    if (err) {
+      res.redirect('back');
+    } else {
+      res.render('comments/edit', { gym_id: req.params.id, comment: foundComment });
+    }
+  });
+});
+
+// COMMENT UPDATE
+router.put('/:comment_id', middleware.checkCommentOwnership, function(req, res) {
+  Comment.findByIdAndUpdate(req.params.comment_id, req.body.comment, function(err, updatedComment) {
+    if (err) {
+      res.redirect('back');
+    } else {
+      res.redirect('/gyms/' + req.params.id);
+    }
+  });
+});
+
+// COMMENT DESTROY ROUTE
+router.delete('/:comment_id', middleware.checkCommentOwnership, function(req, res) {
+    // findByIdAndRemove
+  Comment.findByIdAndRemove(req.params.comment_id, function(err) {
+    if (err) {
+      res.redirect('back');
+    } else {
+      res.redirect('/gyms/' + req.params.id);
+    }
+  });
+});
 
 module.exports = router;
