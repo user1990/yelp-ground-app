@@ -49,10 +49,10 @@ router.post('/', middleware.isLoggedIn, (req, res) => {
     username: req.user.username
   };
   let cost = req.body.cost;
-  geocoder.geocode(req.body.location, (err, data) => {
-    let lat = data.results[0].geometry.location.lat;
-    let lng = data.results[0].geometry.location.lng;
-    let location = data.results[0].formatted_address;
+  geocoder.geocode(req.body.location, function(err, data) {
+    var lat = data.results[0].geometry.location.lat;
+    var lng = data.results[0].geometry.location.lng;
+    var location = data.results[0].formatted_address;
     let newGym = {
       name: name,
       image: image,

@@ -60,15 +60,15 @@
 
 <script>
   function initMap() {
-    // var lat = <%= gym.lat %>;
+    //var lat = <%= gym.lat %>;
     var lat = 10;
-    // var lng = <%= gym.lng %>;
+    //var lng = <%= gym.lng %>;
     var lng = 10;
     var center = {lat: lat, lng: lng };
     var map = new google.maps.Map(document.getElementById('map'), {
         zoom: 8,
         center: center,
-        scrollwheel: false
+        scrollwheel: true
     });
     var contentString = `
       <strong><%= gym.name %><br />
@@ -87,6 +87,6 @@
     });
   }
 </script>
-<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDTfSb1tCWXyuD1Q0l10YdRfRCmc8tS5Ok&callback=initMap"></script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAxlEQTbiHi_Hp8ub6mi7dWtop0NlNAHKU&callback=initMap"></script>
 
 <% include ../partials/footer %>
