@@ -11,6 +11,7 @@ const session = require('express-session');
 const cookieParser = require('cookie-parser');
 const MongoStore = require('connect-mongo')(session);
 const methodOverride = require('method-override');
+
 // Requiring files
 const secret = require('./config/secret');
 const User = require('./models/user');
@@ -39,6 +40,8 @@ app.use(express.static(__dirname + '/public'));
 app.use(methodOverride('_method'));
 app.use(flash());
 app.use(cookieParser());
+// Require moment
+app.locals.moment = require('moment');
 // seedDb(); //seed the database
 
 // PASSPORT CONFIGURATION
