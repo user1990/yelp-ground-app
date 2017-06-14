@@ -48,7 +48,7 @@ body {
 }
 
 /* Flexbox grid fix */
-#flex-wrap {
+.flex-wrap {
     display:flex;
     flex-wrap: wrap;
 }
