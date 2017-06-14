@@ -1,4 +1,16 @@
 # yelp-gym-app
-Gyms reviews application build in Node.js
 
-## COMING SOON
+A full-stack Node.js project to allow user to create, read, update, and delete gym information with RESTful routing.
+
+## Setup
+### 1. Clone Repository
+### 2. Run commands
+```
+npm install
+```
+```
+nodemon
+```
+### 3. Run in browser
+```
+Type: http://localhost:3000/
