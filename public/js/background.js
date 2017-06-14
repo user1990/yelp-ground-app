@@ -2,10 +2,7 @@ var counter = 0;
 
 function changeBG() {
   var images = [
-    'url(../images/third.jpg)',
-    'url(../images/first.jpg)',
-    'url(../images/second.jpg)',
-    'url(../images/fourth.jpg)'
+    'url(../images/third.jpg)'
   ];
 
   if (counter === images.length) {
@@ -16,4 +13,4 @@ function changeBG() {
   counter++;
 }
 
-setInterval(changeBG, 4000);
+setInterval(changeBG, 0);
