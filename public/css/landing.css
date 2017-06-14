@@ -1,5 +1,6 @@
 body {
     background: url("../images/third.jpg");
+    background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
     transition: background 1.5s linear;
@@ -65,23 +66,15 @@ hr {
 }
 
 .slideshow li:nth-child(1) {
-    background-image: url(http://i.imgur.com/K3mPv14.jpg)
+    background-image: url(https://static1.squarespace.com/static/52ad134de4b0b13c219a9018/t/553831b3e4b07179e5b79849/1429746105267/olympic-plates-background.jpg?format=1500w)
 }
 .slideshow li:nth-child(2) {
-    background-image: url(http://i.imgur.com/SBEmFpv.jpg);
+    background-image: url(http://backgrounds4k.net/wp-content/uploads/2016/04/Gym-ultra-high-definition-backgrounds.jpg);
     animation-delay: 10s;
 }
 .slideshow li:nth-child(3) {
-    background-image: url(http://i.imgur.com/emvhOnb.jpg);
+    background-image: url(http://s1.1zoom.me/big0/791/Bodybuilding_Men_511666.jpg);
     animation-delay: 20s;
-}
-.slideshow li:nth-child(4) {
-    background-image: url(http://i.imgur.com/2LSMCmJ.jpg);
-    animation-delay: 30s;
-}
-.slideshow li:nth-child(5) {
-    background-image: url(http://i.imgur.com/TVGe0Ef.jpg);
-    animation-delay: 40s;
 }
 
 @keyframes imageAnimation {
