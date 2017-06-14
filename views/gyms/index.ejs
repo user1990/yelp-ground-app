@@ -3,13 +3,20 @@
 <div class="container">
     <header class="jumbotron">
         <div class="container">
-            <h1>Welcome To YelpGym</h1>
+            <h1><span class="glyphicon glyphicon-user"></span> Welcome To YelpGym!</h1>
             <p>View our hand-picked gyms from all over the world</p>
             <p><a class="btn btn-primary btn-large" href="/gyms/new">Add New Gym</a></p>
+            <p>
+                <form action="/gyms" method="GET" class="form-inline" id="gym-search">
+                    <div class="form-group">
+                        <input type="text" name="search" placeholder="Gym search..." class="form-control">
+                    </div>
+                </form>
+            </p>
         </div>
     </header>
 
-    <div class="row text-center" id="flex-wrap">
+    <div class="row text-center flex-wrap" id="gym-grid">
         <% gyms.forEach(function(gym) { %>
             <div class="col-md-3 col-sm-6">
                 <div class="thumbnail">
@@ -18,7 +25,6 @@
                         <h4><%= gym.name %></h4>
                     </div>
                     <p><a href="/gyms/<%= gym._id %>" class="btn btn-primary">More Info</a></p>
-                    </div>
                 </div>
             </div>
         <% }); %>
