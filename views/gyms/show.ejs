@@ -60,8 +60,10 @@
 
 <script>
   function initMap() {
-    var lat = <%= gym.lat %>;
-    var lng = <%= gym.lng %>;
+    // var lat = <%= gym.lat %>;
+    var lat = 10;
+    // var lng = <%= gym.lng %>;
+    var lng = 10;
     var center = {lat: lat, lng: lng };
     var map = new google.maps.Map(document.getElementById('map'), {
         zoom: 8,
@@ -85,6 +87,6 @@
     });
   }
 </script>
-<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBkG51lwJtDvYFKTBdRZlhzYg1D4QFsXPU&callback=initMap"></script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDTfSb1tCWXyuD1Q0l10YdRfRCmc8tS5Ok&callback=initMap"></script>
 
 <% include ../partials/footer %>
