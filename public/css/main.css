@@ -30,6 +30,7 @@ body {
 
 .thumbnail img {
     width: 100%;
+    min-height: 200px;
 }
 
 .thumbnail .caption-full {
@@ -51,4 +52,9 @@ body {
 .flex-wrap {
     display:flex;
     flex-wrap: wrap;
+}
+
+/* Title in gym page */
+.lead {
+    color: #fff;
 }
