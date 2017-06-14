@@ -27,7 +27,7 @@ router.post('/register', (req, res) => {
       return res.render('accounts/register');
     }
     passport.authenticate('local')(req, res, function() {
-      req.flash('success', 'Welcome to YelpGym ' + user.username);
+      req.flash('success', 'Successfully Signed Up! Nice to meet you ' + user.username);
       res.redirect('/gyms');
     });
   });
@@ -48,7 +48,7 @@ router.post('/login', passport.authenticate('local',
 // Logout logic
 router.get('/logout', (req, res) => {
   req.logout();
-  req.flash('success', 'Logged you out!');
+  req.flash('success', 'See you later!');
   res.redirect('/gyms');
 });
 
