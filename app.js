@@ -73,6 +73,6 @@ app.use('/gyms/:id/comments', commentRoutes);
 app.listen(secret.port, (err) => {
   if (err) { throw err; }
   console.log('======================');
-  console.log('Server is running on port ' + secret.port);
+  console.log(`Server is running on port ${secret.port}`);
   console.log('======================');
 });
