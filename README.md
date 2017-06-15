@@ -14,6 +14,7 @@ nodemon
 ### 3. Run in browser
 ```
 Type: http://localhost:3000/
+```
 
 ## Deployed
 
