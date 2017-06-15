@@ -70,7 +70,7 @@ app.use('/gyms', gymRoutes);
 app.use('/gyms/:id/comments', commentRoutes);
 
 // LISTEN TO PORT
-app.listen(secret.port, secret.host, (err) => {
+app.listen(secret.port, (err) => {
   if (err) { throw err; }
   console.log('======================');
   console.log('Server is running on port ' + secret.port);
