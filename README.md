@@ -6,7 +6,7 @@ A full-stack Node.js project to allow user to create, read, update, and delete g
 
 ## Setup
 ### 1. Clone Repository
-### 2. Run commands
+### 2. To Start
 ```
 npm install
 ```
